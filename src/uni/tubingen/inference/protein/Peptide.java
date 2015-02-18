@@ -1,4 +1,4 @@
-package uni.tubingen.protein;
+package uni.tubingen.inference.protein;
 
 /**
  * Date: Sep 14, 2007

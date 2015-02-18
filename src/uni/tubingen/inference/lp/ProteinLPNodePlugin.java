@@ -2,7 +2,7 @@
  * $Revision$ $Date$ $Author$
  *
  */
-package uni.tubingen.protein.inference.lp;
+package uni.tubingen.inference.lp;
 
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;

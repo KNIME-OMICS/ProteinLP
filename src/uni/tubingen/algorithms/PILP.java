@@ -30,9 +30,9 @@ import org.knime.core.data.def.DefaultRow;
 import org.knime.core.data.def.StringCell;
 import org.knime.core.node.BufferedDataContainer;
 
-import uni.tubingen.protein.FastaLoader;
-import uni.tubingen.protein.PeptideGenerator;
-import uni.tubingen.protein.Protein;
+import uni.tubingen.inference.protein.FastaLoader;
+import uni.tubingen.inference.protein.PeptideGenerator;
+import uni.tubingen.inference.protein.Protein;
 import weka.core.Utils;
 import java.math.BigDecimal;  
 

@@ -1,4 +1,4 @@
-package uni.tubingen.protein.inference.lp;
+package uni.tubingen.inference.lp;
 
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;

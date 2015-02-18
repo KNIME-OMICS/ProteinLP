@@ -1,4 +1,4 @@
-package uni.tubingen.protein;
+package uni.tubingen.inference.protein;
 
 import java.io.*;
 import java.util.*;

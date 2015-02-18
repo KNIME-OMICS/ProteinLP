@@ -31,10 +31,9 @@ import java.util.Hashtable;
 //import jxl.write.WritableSheet;
 //import jxl.write.WritableWorkbook;
 
-import uni.tubingen.protein.FastaLoader;
-import uni.tubingen.protein.PeptideGenerator;
-import uni.tubingen.protein.Protein;
-import weka.core.Utils;
+import uni.tubingen.inference.protein.FastaLoader;
+import uni.tubingen.inference.protein.PeptideGenerator;
+import uni.tubingen.inference.protein.Protein;
 
 
 

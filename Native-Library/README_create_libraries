@@ -1,0 +1,21 @@
+building libraries:
+
+glpk:
+=====
+./configure --prefix=/any/writable/preferred/in/home/ --disable-static
+make
+make check
+make install
+
+
+java-lib:
+=========
+./configure --prefix=/any/writable/preferred/in/home/ CPPFLAGS=-I/src/of/glpk/include/ SWIGFLAGS=-I/src/of/glpk/include/ LDFLAGS=-L/path/to/glpk/lib/ --disable-static
+make
+make check
+make install
+
+
+copy the .so files (not links) in to Native-Library (where this file resides)
+rename to libglpk_java.so and libglpk.so.36
+$ chrpath -r '$ORIGIN' libglpk_java.so    # this let's the library find the dependend one in the same folder

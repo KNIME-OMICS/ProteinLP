@@ -1,4 +1,4 @@
-package uni.tubingen.algorithms;
+package uni.tubingen.inference.lp.algorithms;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -30,9 +31,9 @@ import org.knime.core.data.def.DefaultRow;
 import org.knime.core.data.def.StringCell;
 import org.knime.core.node.BufferedDataContainer;
 
-import uni.tubingen.inference.protein.FastaLoader;
-import uni.tubingen.inference.protein.PeptideGenerator;
-import uni.tubingen.inference.protein.Protein;
+import uni.tubingen.inference.lp.algorithm.protein.FastaLoader;
+import uni.tubingen.inference.lp.algorithm.protein.PeptideGenerator;
+import uni.tubingen.inference.lp.algorithm.protein.Protein;
 import weka.core.Utils;
 import java.math.BigDecimal;  
 
@@ -266,6 +267,7 @@ public class PILP extends BasicAlg{
 		}
 	}
 	
+	
 	public void print(BufferedDataContainer container){
 
 		int number=0;		
@@ -280,16 +282,23 @@ public class PILP extends BasicAlg{
 	    	for(int i=0;i<TotalProteinsGroups;i++){
 				int bestIndex =TotalProteinsGroups-i-1;
 				ArrayList pt = (ArrayList)proteinListInEachGroup.get(proteingroupnames[pos[bestIndex]]);
-	    		for(int j=0;j<pt.size();j++){
+				
+				StringBuilder sb = new StringBuilder();
+	    		for(int j=0; j < pt.size(); j++) {
 	    			int num = ((Integer)pt.get(j)).intValue();
-	    			//System.out.println(proteinNames[num]+":"+proteingroupProb[pos[bestIndex]]);
-	    			RowKey key = new RowKey(proteinNames[num]);
-	                DataCell[] cells = new DataCell[2];	    		
-	        		cells[0] = new StringCell(proteinNames[num]);
-	        		cells[1] = new StringCell(String.valueOf ((Double)proteingroupProb[pos[bestIndex]]));
-	        		DataRow row = new DefaultRow(key, cells);
-	        		container.addRowToTable(row);
+	    					
+	    			if (sb.length() > 0) {
+	    				sb.append(';');
+	    			}
+	    			sb.append(proteinNames[num]);
 	    		}
+	    		
+    			RowKey key = new RowKey(sb.toString());
+                DataCell[] cells = new DataCell[2];	    		
+        		cells[0] = new StringCell(sb.toString());
+        		cells[1] = new StringCell(String.valueOf ((Double)proteingroupProb[pos[bestIndex]]));
+        		DataRow row = new DefaultRow(key, cells);
+        		container.addRowToTable(row);
 			}	
 
 	    }

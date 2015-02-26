@@ -1,4 +1,4 @@
-package uni.tubingen.algorithms;
+package uni.tubingen.inference.lp.algorithms;
 
 
 /*
@@ -31,9 +31,9 @@ import java.util.Hashtable;
 //import jxl.write.WritableSheet;
 //import jxl.write.WritableWorkbook;
 
-import uni.tubingen.inference.protein.FastaLoader;
-import uni.tubingen.inference.protein.PeptideGenerator;
-import uni.tubingen.inference.protein.Protein;
+import uni.tubingen.inference.lp.algorithm.protein.FastaLoader;
+import uni.tubingen.inference.lp.algorithm.protein.PeptideGenerator;
+import uni.tubingen.inference.lp.algorithm.protein.Protein;
 
 
 

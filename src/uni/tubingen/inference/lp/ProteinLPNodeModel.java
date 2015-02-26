@@ -29,7 +29,7 @@ import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 import org.knime.core.node.defaultnodesettings.SettingsModelString;
 
-import uni.tubingen.algorithms.PILP;
+import uni.tubingen.inference.lp.algorithms.PILP;
 
 
 /**
@@ -87,21 +87,6 @@ public class ProteinLPNodeModel extends NodeModel {
 			fieldSysPath.setAccessible(true);
 			fieldSysPath.set(null, null);
 			
-			/*
-			if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-				// try to load Windows library
-				try {
-					System.loadLibrary("glpk_4_55");
-				} catch (UnsatisfiedLinkError e) {
-					// The dependent library might be in the OS library search path.
-				}
-				System.loadLibrary( "glpk_4_55_java" );
-			} else {
-				// try to load Linux library
-				System.loadLibrary("glpk_java") ;
-			}
-			*/
-			
 			System.out.println("showing version of loaded GLPK:") ;
 			System.out.println(GLPK.glp_version( )) ;
 		} catch (Exception e) {
@@ -138,7 +123,7 @@ public class ProteinLPNodeModel extends NodeModel {
 		
 		double endTime = System.currentTimeMillis();
 		double running_time = (endTime-startTime)/(double)1000;
-		System.out.println("Running Time:"+running_time);
+		System.out.println("Running Time:" + running_time);
 		
 		tmp_identification_file.delete();
 		return new BufferedDataTable[]{ container.getTable() };

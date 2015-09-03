@@ -1,40 +1,13 @@
 package uni.tubingen.inference.lp.algorithms;
 
 
-/*
- * This is the most base class for all consequent uni.tubingen.algorithms
- * 
- * It contains those commonly used functions
- * 
- */
-
 import java.util.StringTokenizer;
-import java.util.Vector;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Hashtable;
-
-//import jxl.Workbook;
-//import jxl.format.UnderlineStyle;
-//import jxl.write.Label;
-//import jxl.write.Number;
-//import jxl.write.NumberFormat;
-//import jxl.write.WritableCellFormat;
-//import jxl.write.WritableFont;
-//import jxl.write.WritableSheet;
-//import jxl.write.WritableWorkbook;
-
-import uni.tubingen.inference.lp.algorithm.protein.FastaLoader;
-import uni.tubingen.inference.lp.algorithm.protein.PeptideGenerator;
-import uni.tubingen.inference.lp.algorithm.protein.Protein;
-
 
 
 public class BasicAlg {

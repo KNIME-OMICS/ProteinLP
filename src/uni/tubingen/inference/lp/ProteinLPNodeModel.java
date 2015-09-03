@@ -16,6 +16,8 @@ import org.knime.core.data.DataTableSpec;
 import org.knime.core.data.DoubleValue;
 import org.knime.core.data.RowIterator;
 import org.knime.core.data.StringValue;
+import org.knime.core.data.def.DoubleCell;
+import org.knime.core.data.def.IntCell;
 import org.knime.core.data.def.StringCell;
 import org.knime.core.node.BufferedDataContainer;
 import org.knime.core.node.BufferedDataTable;
@@ -165,10 +167,12 @@ public class ProteinLPNodeModel extends NodeModel {
 	
 	
 	private DataColumnSpec[]  make_output_spec() {
-		DataColumnSpec cols[] = new DataColumnSpec[2];
+		DataColumnSpec cols[] = new DataColumnSpec[4];
 		
 		cols[0] = new DataColumnSpecCreator("Protein ID", StringCell.TYPE).createSpec();
-		cols[1] = new DataColumnSpecCreator("ProteinLP Probability", StringCell.TYPE).createSpec();
+		cols[1] = new DataColumnSpecCreator("ProteinLP Probability", DoubleCell.TYPE).createSpec();
+		cols[2] = new DataColumnSpecCreator("nrPeptidesMod", IntCell.TYPE).createSpec();
+		cols[3] = new DataColumnSpecCreator("nrPeptides", IntCell.TYPE).createSpec();
 		
 		return cols;
 	}

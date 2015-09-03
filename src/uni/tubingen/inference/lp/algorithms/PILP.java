@@ -1,21 +1,10 @@
 package uni.tubingen.inference.lp.algorithms;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.Map.Entry;
-
 
 import org.gnu.glpk.GLPK;
 import org.gnu.glpk.GLPKConstants;
@@ -28,24 +17,28 @@ import org.knime.core.data.DataCell;
 import org.knime.core.data.DataRow;
 import org.knime.core.data.RowKey;
 import org.knime.core.data.def.DefaultRow;
+import org.knime.core.data.def.DoubleCell;
+import org.knime.core.data.def.IntCell;
 import org.knime.core.data.def.StringCell;
 import org.knime.core.node.BufferedDataContainer;
 
-import uni.tubingen.inference.lp.algorithm.protein.FastaLoader;
-import uni.tubingen.inference.lp.algorithm.protein.PeptideGenerator;
-import uni.tubingen.inference.lp.algorithm.protein.Protein;
 import weka.core.Utils;
-import java.math.BigDecimal;  
 
 
 public class PILP extends BasicAlg{
 	
-	double[] proteingroupProb;					//the array of uni.tubingen.protein group probabilities
-	int nonZeroEntriesM2 = 0;					//the number of non-zero variables in the matrix P
-	ArrayList[] peptideListInEachProteinGroup; 	// the set of peptides corresponds to each uni.tubingen.protein group
-	Hashtable[] candidateList;					// the set of peptide IDs in each uni.tubingen.protein group
-
-
+	/** the array of uni.tubingen.protein group probabilities*/
+	private double[] proteingroupProb;
+	
+	/** the number of non-zero variables in the matrix P */
+	private int nonZeroEntriesM2 = 0;
+	
+	/** the set of peptides corresponds to each uni.tubingen.protein group */
+	private ArrayList<String>[] peptideListInEachProteinGroup;
+	
+	/** the set of peptide IDs in each uni.tubingen.protein group */
+	private Hashtable<Integer, Integer>[] candidateList;
+	
 	
 	/* Load the peptide identification data and make it suitable for proteinLP processing*/
 	public void initialization(String resultFile){
@@ -54,11 +47,11 @@ public class PILP extends BasicAlg{
 		getcoef("max");
 		
 		peptideListInEachProteinGroup = new ArrayList[TotalProteinsGroups];
-		for(Iterator h = proteingroup.keySet().iterator();h.hasNext(); ){
+		for(Iterator h = proteingroup.keySet().iterator(); h.hasNext(); ){
 			 String key = (String) h.next();
-			 ArrayList al = (ArrayList)proteingroup.get(key);
+			 ArrayList<String> al = (ArrayList<String>)proteingroup.get(key);
 			 int pos = ((Integer)proteingroup_pos.get(key)).intValue();
-			 peptideListInEachProteinGroup[pos] = new ArrayList();
+			 peptideListInEachProteinGroup[pos] = new ArrayList<String>();
 			 for(int i=0;i<al.size();i++){
 				 peptideListInEachProteinGroup[pos].add(al.get(i));
 			 }
@@ -66,10 +59,10 @@ public class PILP extends BasicAlg{
 		
 		candidateList = new Hashtable[TotalProteinsGroups];
 		for(int i=0;i<TotalProteinsGroups;i++){
-			candidateList[i] = new Hashtable();
+			candidateList[i] = new Hashtable<Integer, Integer>();
 			for(int j=0;j<peptideListInEachProteinGroup[i].size();j++){
-				String peptideseq = (String)peptideListInEachProteinGroup[i].get(j);
-				int num = ((Integer)distinct_peptide.get(peptideseq)).intValue();
+				String peptideseq = peptideListInEachProteinGroup[i].get(j);
+				int num = ((Integer)distinct_peptide.get(peptideseq));
 				candidateList[i].put(num, num);
 			}
 		}
@@ -269,16 +262,9 @@ public class PILP extends BasicAlg{
 	
 	
 	public void print(BufferedDataContainer container){
-
-		int number=0;		
-	 
 		try{
-	    	
 			int[] pos = Utils.sort(proteingroupProb);
 	    	
-	    	//System.out.println("------------------------------------------");
-    		//System.out.println("The protein list reported by ProteinLP:");
-	    	//Report all the proteins in each uni.tubingen.protein group
 	    	for(int i=0;i<TotalProteinsGroups;i++){
 				int bestIndex =TotalProteinsGroups-i-1;
 				ArrayList pt = (ArrayList)proteinListInEachGroup.get(proteingroupnames[pos[bestIndex]]);
@@ -294,9 +280,18 @@ public class PILP extends BasicAlg{
 	    		}
 	    		
     			RowKey key = new RowKey(sb.toString());
-                DataCell[] cells = new DataCell[2];	    		
+                DataCell[] cells = new DataCell[4];	    		
         		cells[0] = new StringCell(sb.toString());
-        		cells[1] = new StringCell(String.valueOf ((Double)proteingroupProb[pos[bestIndex]]));
+        		cells[1] = new DoubleCell(proteingroupProb[pos[bestIndex]]);
+        		
+        		Set<String> sequenceWithoutMods = new HashSet<String>();
+        		for (String modSeq : peptideListInEachProteinGroup[pos[bestIndex]]) {
+        			sequenceWithoutMods.add(modSeq.replaceAll("\\([^\\)]+\\)", ""));
+        		}
+        		
+        		cells[2] = new IntCell(peptideListInEachProteinGroup[pos[bestIndex]].size());
+        		cells[3] = new IntCell(sequenceWithoutMods.size());
+        		
         		DataRow row = new DefaultRow(key, cells);
         		container.addRowToTable(row);
 			}	

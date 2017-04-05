@@ -1,14 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ProteinLP-Node extension for KNIME Workbench
+Bundle-Name: ProteinLP node for KNIME
 Bundle-SymbolicName: uni.tubingen.inference.lp;singleton:=true
-Bundle-Version: 0.1.0
+Bundle-Version: 0.3.0
 Bundle-ClassPath: Native-Library/,
  proteinlp.jar,
  lib/glpk-java-1.0.37.jar,
  lib/weka.jar
 Bundle-Activator: uni.tubingen.inference.lp.ProteinLPNodePlugin
-Bundle-Vendor: enrique
+Bundle-Vendor: julianu
 Require-Bundle: org.eclipse.core.runtime,
  org.knime.workbench.core,
  org.knime.workbench.repository,
